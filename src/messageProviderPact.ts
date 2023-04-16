@@ -5,9 +5,9 @@
 import { omit, isEmpty } from "lodash"
 import { MessageDescriptor } from "./dsl/message"
 import logger, { setLogLevel } from "./common/logger"
-import { VerifierOptions } from "@pact-foundation/pact-node"
+import { VerifierOptions } from "@you54f/pact-node"
 import { PactMessageProviderOptions } from "./dsl/options"
-import serviceFactory from "@pact-foundation/pact-node"
+import serviceFactory from "@you54f/pact-node"
 import * as express from "express"
 import * as http from "http"
 import { MessageProvider } from "./pact"
@@ -70,6 +70,7 @@ export class MessageProviderPact {
     return (server: http.Server) => {
       const opts = {
         ...omit(this.config, "handlers"),
+        // @ts-ignore
         ...{ providerBaseUrl: "http://localhost:" + server.address().port },
       } as VerifierOptions
 

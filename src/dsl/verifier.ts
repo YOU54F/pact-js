@@ -2,10 +2,10 @@
  * Provider Verifier service
  * @module ProviderVerifier
  */
-import pact from "@pact-foundation/pact-node"
+import pact from "@you54f/pact-node"
 import { qToPromise } from "../common/utils"
-import { VerifierOptions as PactNodeVerifierOptions } from "@pact-foundation/pact-node"
-import serviceFactory from "@pact-foundation/pact-node"
+import { VerifierOptions as PactNodeVerifierOptions } from "@you54f/pact-node"
+import serviceFactory from "@you54f/pact-node"
 import { omit, isEmpty, pickBy, identity, reduce } from "lodash"
 import * as express from "express"
 import * as http from "http"
@@ -94,10 +94,12 @@ export class Verifier {
   private runProviderVerification() {
     return (server: http.Server) => {
       const opts = {
+        // @ts-ignore
         providerStatesSetupUrl: `${this.address}:${server.address().port}${
           this.stateSetupPath
         }`,
         ...omit(this.config, "handlers"),
+        // @ts-ignore
         providerBaseUrl: `${this.address}:${server.address().port}`,
       }
 
@@ -271,7 +273,7 @@ export class Verifier {
         chunks.push(Buffer.from(chunk))
         return oldWrite.apply(res, [chunk])
       }
-
+      // @ts-ignore
       res.end = (chunk: any) => {
         if (chunk) {
           chunks.push(Buffer.from(chunk))

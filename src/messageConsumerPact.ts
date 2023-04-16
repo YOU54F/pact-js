@@ -12,7 +12,7 @@ import {
   MessageConsumer,
 } from "./dsl/message"
 import logger, { setLogLevel } from "./common/logger"
-import serviceFactory from "@pact-foundation/pact-node"
+import serviceFactory from "@you54f/pact-node"
 import { MessageConsumerOptions } from "./dsl/options"
 import ConfigurationError from "./errors/configurationError"
 
