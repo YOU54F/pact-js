@@ -15,10 +15,10 @@ echo "--> Releasing version ${VERSION}"
 echo "--> Releasing artifacts"
 echo "    Publishing pact@${VERSION}..."
 cd dist
-npm publish --access public --tag latest
+npm publish --access public --tag ruby
 echo "    done!"
 cd ..
 cd dist-web
 echo "    Publishing pact-web@${VERSION}..."
-npm publish --access public --tag latest
+npm publish --access public --tag ruby
 echo "    done!"
