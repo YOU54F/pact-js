@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.19.0](https://github.com/pact-foundation/pact-js/compare/v9.18.1...v9.19.0) (2023-04-16)
+
+
+### Features
+
+* 10.x.x-pact-node-arm64-release ([a3bdc3d](https://github.com/pact-foundation/pact-js/commit/a3bdc3dfea13e3c0c4f775fd751df0cc9420fda5))
+
+
+### Fixes and Improvements
+
+* 10.x.x-pact-node-arm64 publish from folder ([ce3fb69](https://github.com/pact-foundation/pact-js/commit/ce3fb69a1a1ed50ba1dc4296c0d1e287379377b6))
+* 10.x.x-pact-node-arm64 tag as ruby ([6a613d2](https://github.com/pact-foundation/pact-js/commit/6a613d2b9dab68e684dae633cb9a5cadfe349911))
+
 ### [9.18.1](https://github.com/pact-foundation/pact-js/compare/v9.18.0...v9.18.1) (2022-06-28)
 
 
