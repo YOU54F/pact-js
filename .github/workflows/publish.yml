@@ -4,7 +4,8 @@ on:
   repository_dispatch:
     types:
       - release-triggered
-
+  push:
+    branches: [9.x.x-pact-node-arm64-release]
 jobs:
   release:
     runs-on: ubuntu-latest
