@@ -13,7 +13,8 @@
   },
   "devDependencies": {
     "absolute-version": "^1.0.0",
-    "@pact-foundation/pact": "^9.17.2",
+    "@you54f/pact": "file:../../dist",
+    "@pact-foundation/pact": "9.17.3",
     "axios": "^0.21.1",
     "jest": "^26.6.3",
     "jest-pact": "^0.9.1"

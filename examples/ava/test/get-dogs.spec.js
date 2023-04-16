@@ -2,7 +2,7 @@
 
 const path = require("path")
 const test = require("ava")
-const pact = require("@pact-foundation/pact")
+const pact = require("@you54f/pact")
 const Pact = pact.Pact
 const getMeDogs = require("../index").getMeDogs
 

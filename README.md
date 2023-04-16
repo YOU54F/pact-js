@@ -157,7 +157,7 @@ Pact supports [synchronous request-response style HTTP interactions](#http-api-t
 To use the library on your tests, add the pact dependency:
 
 ```javascript
-const { Pact } = require("@pact-foundation/pact")
+const { Pact } = require("@you54f/pact")
 ```
 
 The `Pact` class provides the following high-level APIs, they are listed in the order in which they typically get called in the lifecycle of testing a consumer:
@@ -207,7 +207,7 @@ Check out the `examples` folder for examples with Mocha and Jest. The example be
 ```javascript
 const path = require("path")
 const chai = require("chai")
-const { Pact } = require("@pact-foundation/pact")
+const { Pact } = require("@you54f/pact")
 const chaiAsPromised = require("chai-as-promised")
 const expect = chai.expect
 
@@ -561,7 +561,7 @@ access token instead of a password, use the environment variable
 If you require finer control over your pact publication, you can programatically publish in a custom script:
 
 ```js
-const { Publisher } = require("@pact-foundation/pact")
+const { Publisher } = require("@you54f/pact")
 const opts = {
    ...
 };
@@ -635,7 +635,7 @@ const path = require("path")
 const {
   MessageConsumerPact,
   synchronousBodyHandler,
-} = require("@pact-foundation/pact")
+} = require("@you54f/pact")
 
 // 1 Dog API Handler
 const dogApiHandler = function (dog) {
@@ -699,7 +699,7 @@ As per the Consumer case, Pact takes the position of the intermediary (MQ/broker
 
 ```js
 const path = require("path")
-const { MessageProviderPact } = require("@pact-foundation/pact")
+const { MessageProviderPact } = require("@you54f/pact")
 
 // 1 Messaging integration client
 const dogApiClient = {

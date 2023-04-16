@@ -1,4 +1,4 @@
-const { Verifier } = require("@pact-foundation/pact")
+const { Verifier } = require("@you54f/pact")
 const { versionFromGitTag } = require("absolute-version")
 const chai = require("chai")
 const chaiAsPromised = require("chai-as-promised")

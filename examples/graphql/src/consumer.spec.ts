@@ -3,7 +3,7 @@ import * as chai from "chai"
 import * as path from "path"
 import * as chaiAsPromised from "chai-as-promised"
 import { query } from "./consumer"
-import { Pact, GraphQLInteraction, Matchers } from "@pact-foundation/pact"
+import { Pact, GraphQLInteraction, Matchers } from "@you54f/pact"
 const { like } = Matchers
 // import gql from "graphql-tag";
 

@@ -32,7 +32,7 @@ From a Pact testing point of view, Pact takes the place of the intermediary (MQ/
 The following test creates a contract for a Dog API handler:
 
 ```js
-  const { MessageConsumerPact, Message, synchronousBodyHandler } = require("@pact-foundation/pact");
+  const { MessageConsumerPact, Message, synchronousBodyHandler } = require("@you54f/pact");
 
   // 1 Dog API Handler
   const dogApiHandler = function(dog) {
@@ -95,7 +95,7 @@ A Provider (Producer in messaging parlance) is the system that will be putting a
 As per the Consumer case, Pact takes the position of the intermediary (MQ/broker) and checks to see whether or not the Provider sends a message that matches the Consumer's expectations.
 
 ```js
-const { MessageProviderPact, Message } = require("@pact-foundation/pact")
+const { MessageProviderPact, Message } = require("@you54f/pact")
 
 // 1 Messaging integration client
 const dogApiClient = {

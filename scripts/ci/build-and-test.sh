@@ -12,7 +12,7 @@ export PACT_BROKER_PASSWORD="O5AIZWxelWbLvqMd8PkAVycBJh2Psyg1"
 
 "${DIR}"/lib/prepare-release.sh
 
-echo "This will be version '$(npx absolute-version)'"
+echo "This will be version '$(npx --yes absolute-version)'"
 
 # Link the build so that the examples are always testing the
 # current build, in it's properly exported format
@@ -23,7 +23,7 @@ echo "Running e2e examples build for node version $(node --version)"
 for i in examples/*; do
   [ -e "$i" ] || continue # prevent failure if there are no examples
   echo "--> running tests for: $i"
-  (cd "$i" && npm i && npm link @pact-foundation/pact && npm t)
+  (cd "$i" && npm i && npm link @you54f/pact && npm t)
 done
 
 echo "--> Running coverage checks"

@@ -1,4 +1,4 @@
-const { MessageProviderPact } = require("@pact-foundation/pact")
+const { MessageProviderPact } = require("@you54f/pact")
 const { versionFromGitTag } = require("absolute-version")
 const path = require("path")
 const { createEvent } = require("./index")

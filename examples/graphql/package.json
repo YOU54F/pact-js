@@ -20,7 +20,7 @@
   "license": "MIT",
   "devDependencies": {
     "absolute-version": "^1.0.0",
-    "@pact-foundation/pact": "^9.17.2",
+    "@you54f/pact": "file:../../dist",
     "@types/chai": "^4.2.0",
     "@types/chai-as-promised": "0.0.31",
     "@types/express-graphql": "0.8.0",

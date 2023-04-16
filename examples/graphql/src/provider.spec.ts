@@ -1,4 +1,4 @@
-import { Verifier } from "@pact-foundation/pact"
+import { Verifier } from "@you54f/pact"
 import { versionFromGitTag } from "absolute-version"
 import app from "./provider"
 

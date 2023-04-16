@@ -1,5 +1,5 @@
 /*  tslint:disable: no-console*/
-import { MessageProviderPact } from "@pact-foundation/pact"
+import { MessageProviderPact } from "@you54f/pact"
 import { versionFromGitTag } from "absolute-version"
 import path = require("path")
 const { createDog } = require("./dog-client")
