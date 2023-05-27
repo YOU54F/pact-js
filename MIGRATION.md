@@ -54,7 +54,7 @@ has always been RFC1123, not RFC3339).
 You no longer need to use `VerifierV3`. You may now do:
 
 ```
-import { Verifier } from '@pact-foundation/pact'
+import { Verifier } from '@you54f/pact'
 ```
 
 If migrating from VerifierV3, note that `disableSSLVerification` has been

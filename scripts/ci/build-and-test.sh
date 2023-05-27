@@ -7,7 +7,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd)" # Figure out where the 
 . "$SCRIPT_DIR"/lib/robust-bash.sh
 
 
-npm ci
+npm ci --ignore-scripts
 
 npm run dist
 cp package.json ./dist
@@ -25,7 +25,7 @@ echo "This will be version '$(npx absolute-version)'"
 
 # Link the build so that the examples are always testing the
 # current build, in it's properly exported format
-(cd dist && npm ci)
+(cd dist && npm ci --ignore-scripts)
 
 echo "Running e2e examples build for node version $(node --version)"
 for i in examples/*; do
@@ -34,11 +34,16 @@ for i in examples/*; do
   echo "--> running tests for: $i"
   pushd "$i"
   # replace pact dependency with locally build version
-  contents="$(jq '.devDependencies."@pact-foundation/pact" = "file:../../dist"' package.json)" && \
+  contents="$(jq '.devDependencies."@you54f/pact" = "file:../../dist"' package.json)" && \
         echo "${contents}" > package.json
   # npm ci does not work because we have just changed the package.json file
-  npm install
-  npm test
+  if [ x"${SKIP_EXAMPLES}" == "x" ]; then 
+    echo "running all examples as SKIP_EXAMPLES not set"
+    npm install --ignore-scripts
+    npm test
+  else
+    echo "skipping examples as SKIP_EXAMPLES set"
+  fi
   popd
 done
 
@@ -63,10 +68,15 @@ for i in examples/v*/*; do
   node --version
   pushd "$i"
   # replace pact dependency with locally build version
-  contents="$(jq '.devDependencies."@pact-foundation/pact" = "file:../../../dist"' package.json)" && \
+  contents="$(jq '.devDependencies."@you54f/pact" = "file:../../../dist"' package.json)" && \
      echo "${contents}" > package.json
   # npm ci does not work because we have just changed the package.json file
-  npm install
-  npm test
+  if [ x"${SKIP_EXAMPLES}" == "x" ]; then 
+    echo "running all examples as SKIP_EXAMPLES not set"
+    npm install --ignore-scripts
+    npm test
+  else
+    echo "skipping examples as SKIP_EXAMPLES set"
+  fi
   popd
 done

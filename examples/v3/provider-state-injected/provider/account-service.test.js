@@ -1,5 +1,5 @@
 const path = require('path');
-const { Verifier } = require('@pact-foundation/pact');
+const { Verifier } = require('@you54f/pact');
 const { accountService } = require('./account-service');
 const {
   Account,
@@ -10,10 +10,10 @@ const LOG_LEVEL = process.env.LOG_LEVEL || 'TRACE';
 
 describe('Account Service', () => {
   let server;
-  beforeAll((done) => (server = accountService.listen(8081, done)));
-  afterAll((done) => {
+  beforeAll(() => (server = accountService.listen(8081)));
+  afterAll(() => {
     console.log('closing server!');
-    server.close(done);
+    server.close();
   });
 
   it('validates the expectations of Transaction Service', () => {

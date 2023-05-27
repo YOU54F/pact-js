@@ -4,7 +4,7 @@
  */
 import serviceFactory, {
   VerifierOptions as PactCoreVerifierOptions,
-} from '@pact-foundation/pact-core';
+} from '@you54f/pact-core';
 import { omit, isEmpty } from 'lodash';
 import * as http from 'http';
 import * as url from 'url';

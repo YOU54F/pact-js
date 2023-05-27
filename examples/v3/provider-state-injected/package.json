@@ -11,9 +11,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@pact-foundation/pact": "10.1.2",
+    "@you54f/pact": "file:../../../dist",
     "chai": "^4.3.6",
-    "jest": "^26.6.3"
+    "jest": "^29.5.0"
   },
   "dependencies": {
     "axios": "^0.21.0",

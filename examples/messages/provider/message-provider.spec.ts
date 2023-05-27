@@ -3,7 +3,7 @@ import {
   LogLevel,
   MessageProviderPact,
   providerWithMetadata,
-} from '@pact-foundation/pact';
+} from '@you54f/pact';
 import { versionFromGitTag } from 'absolute-version';
 const { createDog } = require('./dog-client');
 const LOG_LEVEL = process.env.LOG_LEVEL || 'TRACE';

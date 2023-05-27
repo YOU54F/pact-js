@@ -2,6 +2,7 @@
 
 set -e
 
+export ENABLE_FEATURE_V4=true
 export GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 export LOG_LEVEL=info
 for i in *; do

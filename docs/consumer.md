@@ -77,7 +77,7 @@ The first step is to create a test for your API Consumer. The example below uses
 Check out the [examples](https://github.com/pact-foundation/pact-js/tree/master/examples/) for more of these.
 
 ```js
-import { PactV3, MatchersV3 } from '@pact-foundation/pact';
+import { PactV3, MatchersV3 } from '@you54f/pact';
 
 // Create a 'pact' between the two applications in the integration we are testing
 const provider = new PactV3({

@@ -1,4 +1,4 @@
-import { ConsumerPact, makeConsumerPact } from '@pact-foundation/pact-core';
+import { ConsumerPact, makeConsumerPact } from '@you54f/pact-core';
 import { UnconfiguredInteraction } from './http';
 import { PactV4Options, V4UnconfiguredInteraction } from './http/types';
 import { V4ConsumerPact } from './types';

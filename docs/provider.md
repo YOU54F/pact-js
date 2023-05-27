@@ -39,7 +39,7 @@ Once you have created Pacts for your Consumer, you need to validate those Pacts 
 1.  Then run the Provider side verification step
 
 ```js
-const { Verifier } = require('@pact-foundation/pact');
+const { Verifier } = require('@you54f/pact');
 const opts = {
   ...
 };
@@ -297,7 +297,7 @@ The easiest way to publish pacts to the broker is via an npm script in your pack
 
 ```
 
-   "test:publish": "./node_modules/.bin/pact-broker publish <YOUR_PACT_FILES_OR_DIR> --consumer-app-version=\"$(npx absolute-version)\" --auto-detect-version-properties --broker-base-url=https://your-broker-url.example.com"
+   "test:publish": "./node_modules/.bin/pact-broker publish <YOUR_PACT_FILES_OR_DIR> --consumer-app-version=\"$(npxabsolute-version)\" --auto-detect-version-properties --broker-base-url=https://your-broker-url.example.com"
 ```
 
 For a full list of the options, see the [CLI usage instructions](https://github.com/pact-foundation/pact-ruby-standalone/releases).

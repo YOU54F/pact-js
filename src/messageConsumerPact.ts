@@ -7,7 +7,7 @@ import serviceFactory, {
   AsynchronousMessage,
   makeConsumerAsyncMessagePact,
   ConsumerMessagePact,
-} from '@pact-foundation/pact-core';
+} from '@you54f/pact-core';
 import { forEachObjIndexed } from 'ramda';
 import { AnyJson } from './common/jsonTypes';
 import { AnyTemplate } from './dsl/matchers';

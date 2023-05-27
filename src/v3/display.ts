@@ -7,7 +7,7 @@ import {
   MatchingResultMissingRequest,
   MatchingResultPlugin,
   PluginContentMismatch,
-} from '@pact-foundation/pact-core';
+} from '@you54f/pact-core';
 
 // TODO: update Matching in the rust core to have a `type` property
 //       to avoid having to do this check!

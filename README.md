@@ -123,7 +123,7 @@ In this example, we are going to be testing our User API client, responsible for
 Pact tests have a few key properties. We'll demonstrate a common example using the 3A `Arrange/Act/Assert` pattern.
 
 ```js
-import { PactV3, MatchersV3 } from '@pact-foundation/pact';
+import { PactV3, MatchersV3 } from '@you54f/pact';
 
 // Create a 'pact' between the two applications in the integration we are testing
 const provider = new PactV3({
@@ -212,7 +212,7 @@ The main provider interface is the `Verifier` class of the `@pact-foundation/pac
 A provider test takes one or more pact files (contracts) as input, and Pact verifies that your provider adheres to the contract. In the simplest case, you can verify a provider as per below using a local pact file, although in practice you would usually use a Pact Broker to manage your contracts and CI/CD workflow.
 
 ```js
-const { Verifier } = require('@pact-foundation/pact');
+const { Verifier } = require('@you54f/pact');
 
 // (1) Start provider locally. Be sure to stub out any external dependencies
 server.listen(8081, () => {

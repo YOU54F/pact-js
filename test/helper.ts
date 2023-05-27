@@ -1,4 +1,4 @@
-import pact from '@pact-foundation/pact-core';
+import pact from '@you54f/pact-core';
 import * as mockery from 'mockery';
 
 // used to kill any left over mock server instances

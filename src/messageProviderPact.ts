@@ -4,7 +4,7 @@
 
 import { omit, isEmpty } from 'lodash';
 
-import serviceFactory, { VerifierOptions } from '@pact-foundation/pact-core';
+import serviceFactory, { VerifierOptions } from '@you54f/pact-core';
 import express from 'express';
 import * as http from 'http';
 import bodyParser from 'body-parser';
