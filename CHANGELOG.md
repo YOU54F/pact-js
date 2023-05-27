@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [11.2.0](https://github.com/pact-foundation/pact-js/compare/v11.0.2...v11.2.0) (2023-05-27)
+
+
+### Features
+
+* Update to Prebuild version of @you54f/pact-core ([a92c3ce](https://github.com/pact-foundation/pact-js/commit/a92c3ce4a13028e455f7c8e6d8e3fee350c04f25))
+
 ### [11.0.2](https://github.com/pact-foundation/pact-js/compare/v11.0.1...v11.0.2) (2023-03-09)
 
 
