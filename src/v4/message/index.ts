@@ -19,7 +19,7 @@ import {
 import {
   SynchronousMessage as PactCoreSynchronousMessage,
   ConsumerPact,
-} from '@pact-foundation/pact-core';
+} from '@you54f/pact-core';
 import { PactV4Options } from '../http/types';
 import { forEachObjIndexed, isEmpty } from 'ramda';
 import ConfigurationError from '../../errors/configurationError';

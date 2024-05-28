@@ -2,7 +2,7 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import sinon from 'sinon';
 import { Server } from 'http';
-import serviceFactory, { LogLevel } from '@pact-foundation/pact-core';
+import serviceFactory, { LogLevel } from '@you54f/pact-core';
 
 import * as proxy from './proxy/proxy';
 import logger from '../../common/logger';
