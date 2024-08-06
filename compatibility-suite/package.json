@@ -1,0 +1,21 @@
+{
+  "name": "compatibility-suite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "cucumber-js pact-compatibility-suite/features -c cucumber.json",
+    "test:v1": "cucumber-js pact-compatibility-suite/features/v1 -c cucumber.json",
+    "test:v2": "cucumber-js pact-compatibility-suite/features/v2 -c cucumber.json",
+    "test:v3": "cucumber-js pact-compatibility-suite/features/v3 -c cucumber.json",
+    "test:v4": "cucumber-js pact-compatibility-suite/features/v4 -c cucumber.json"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@cucumber/cucumber": "^10.8.0",
+    "@pact-foundation/pact": "file:../dist",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  }
+}
