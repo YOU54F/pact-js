@@ -2,6 +2,61 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [14.0.0](https://github.com/pact-foundation/pact-js/compare/v11.0.2...v14.0.0) (2025-01-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* update to @pact-foundation/pact-core to 15.x
+* set node engines min version to 16
+
+### Features
+
+* add eachKeyMatches + eachValueMatches Matchers ([0b2098b](https://github.com/pact-foundation/pact-js/commit/0b2098b035a01e8c61c8165804a7eb3b0fb67c0d))
+* allow v3 matchers in message metadata ([58b1251](https://github.com/pact-foundation/pact-js/commit/58b125133b80327597702ebf7246bc47ad9c8da8))
+* **corporate proxy:** support in verifier ([f3ec1be](https://github.com/pact-foundation/pact-js/commit/f3ec1be2029c365e1888798f8a78935a0ed3f74c))
+* remove feature flag for v4 ([3d8eccc](https://github.com/pact-foundation/pact-js/commit/3d8ecccca04d08972e6ad3f562c90e3f4ab6c130))
+* replace cli-color with chalk - sonatype-2022-2248 ([2ad5e48](https://github.com/pact-foundation/pact-js/commit/2ad5e489006fac17579e54e3071efc416ed9a1cc))
+* support alpine via pact-js-core 15.1.0 ([1d35c82](https://github.com/pact-foundation/pact-js/commit/1d35c826b225d99943b733aa7939361b8d8dfd78))
+* support matching numbers, bool in query strings ([d2237bd](https://github.com/pact-foundation/pact-js/commit/d2237bd633ee17be8c3e80931fed429af9bf8256))
+
+
+### Fixes and Improvements
+
+* allow hooks to run only once per interaction ([#1243](https://github.com/pact-foundation/pact-js/issues/1243)) ([b238fd0](https://github.com/pact-foundation/pact-js/commit/b238fd040031107cdd700e4ff43ab18dedf69859))
+* allow re-use of PactV4 object ([38a68fb](https://github.com/pact-foundation/pact-js/commit/38a68fb4569a20f54160333498b8b0bc20ec7838))
+* broken `eachLike` V3 documentation. ([68e5013](https://github.com/pact-foundation/pact-js/commit/68e50136abaf1f1522c7be19bc005d6655eb7d43))
+* **ci:** update matt plugin provider test ([db37296](https://github.com/pact-foundation/pact-js/commit/db3729626b92d4d8342e2c403024cae7f9a39350))
+* code coverage ([c0bb760](https://github.com/pact-foundation/pact-js/commit/c0bb7600d132d22ad1057a74c943993a5e7b23c6))
+* **deps:** update dependency lodash.isfunction to v3.0.9 ([#1268](https://github.com/pact-foundation/pact-js/issues/1268)) ([fb08af3](https://github.com/pact-foundation/pact-js/commit/fb08af37923c8c802ac5d272ee8512307d42f690))
+* do not split headers by comma ([fccaa07](https://github.com/pact-foundation/pact-js/commit/fccaa0780562002e78b175a5406479171d689f34)), closes [#1031](https://github.com/pact-foundation/pact-js/issues/1031) [#1058](https://github.com/pact-foundation/pact-js/issues/1058)
+* examples/graphql/package.json & examples/graphql/package-lock.json to reduce vulnerabilities ([c9ed8fc](https://github.com/pact-foundation/pact-js/commit/c9ed8fcc72e307b787e736fca24dfc130deac880))
+* MessageConsumerPact merge pact file correctly ([6b5de27](https://github.com/pact-foundation/pact-js/commit/6b5de27c196af45704d9ca9f4837396363a56a15))
+* nullValue matcher does not reify ([#1230](https://github.com/pact-foundation/pact-js/issues/1230)) ([bee3afb](https://github.com/pact-foundation/pact-js/commit/bee3afb5c2644218f57a65907547b12f5c6e93cb)), closes [#1229](https://github.com/pact-foundation/pact-js/issues/1229)
+* package.json & package-lock.json to reduce vulnerabilities ([3f535ed](https://github.com/pact-foundation/pact-js/commit/3f535ed070ea837046db7ab59d0418234f33e5d8))
+* package.json & package-lock.json to reduce vulnerabilities ([99e101c](https://github.com/pact-foundation/pact-js/commit/99e101c3eebadab146c526770440f0d1df177195))
+* package.json & package-lock.json to reduce vulnerabilities ([7c2e119](https://github.com/pact-foundation/pact-js/commit/7c2e11991b7c73d71736b785b17b4e04a2655503))
+* package.json & package-lock.json to reduce vulnerabilities ([288bdfd](https://github.com/pact-foundation/pact-js/commit/288bdfd37e497f89589795dde7b7afba97ce0f50))
+* package.json & package-lock.json to reduce vulnerabilities ([#1234](https://github.com/pact-foundation/pact-js/issues/1234)) ([bc0bfdb](https://github.com/pact-foundation/pact-js/commit/bc0bfdb0a4109b9ad153fc13340d25039524a9e3))
+* package.json & package-lock.json to reduce vulnerabilities ([#1238](https://github.com/pact-foundation/pact-js/issues/1238)) ([431219c](https://github.com/pact-foundation/pact-js/commit/431219c312ee5238ddac35a15e46c83dc6c788d4))
+* PactV4 should default to V4 spec ([46acc70](https://github.com/pact-foundation/pact-js/commit/46acc70e21a9efa46917af0d2975c9b245773cda))
+* prevent non-number use in number matcher ([d0ee6c4](https://github.com/pact-foundation/pact-js/commit/d0ee6c42ba5853b69259549191c67015a10c2b5a))
+* prevent non-number use in number matcher ([0db6f7f](https://github.com/pact-foundation/pact-js/commit/0db6f7ff20d6a753ecc504fccff435d2030de54c))
+* replace basic auth pact broker with bearer token ([0c1af06](https://github.com/pact-foundation/pact-js/commit/0c1af06f664f73e9014b23dc6d58e97efebdfb7d))
+* retire lodash omitby to fix vulnerability ([fedcc2e](https://github.com/pact-foundation/pact-js/commit/fedcc2e23c679300126b858ac4c9cb29353d1f47))
+* return raw consumer mock server mismatch if structure unknown ([17be53c](https://github.com/pact-foundation/pact-js/commit/17be53c3808c8ea489b5b9d85f9287144f4a1a31))
+* revert test workaround / update to matt plugin 0.1.0 ([f306c2b](https://github.com/pact-foundation/pact-js/commit/f306c2bf432ecbd658cd1b91d3122b499bbd0c1f))
+* set node engines min version to 16 ([85df5b7](https://github.com/pact-foundation/pact-js/commit/85df5b7c4696a51671d1c8a678ece0fe531c88e2))
+* support async afterEach hook ([8c7cef6](https://github.com/pact-foundation/pact-js/commit/8c7cef6cb73633dbc68996bf4ba4b0e7613682b6)), closes [#1241](https://github.com/pact-foundation/pact-js/issues/1241)
+* support multiple states with same name ([36dfb4f](https://github.com/pact-foundation/pact-js/commit/36dfb4f70b383d1bd59476ea37f219f2c3679e04)), closes [#848](https://github.com/pact-foundation/pact-js/issues/848)
+* **types:** remove AnyTemplate references from DSL ([4aa5c9b](https://github.com/pact-foundation/pact-js/commit/4aa5c9bf186e3608f01e7875993a7479d30dbd15)), closes [#1133](https://github.com/pact-foundation/pact-js/issues/1133)
+* update dependencies to remove vulnerabilities ([4b00b63](https://github.com/pact-foundation/pact-js/commit/4b00b63fd17248d85017d16dc76d1866556a8117))
+* update to @pact-foundation/pact-core to 15.x ([42f52bb](https://github.com/pact-foundation/pact-js/commit/42f52bb9dbe5c65094e0ce8979605a8457f18ba5))
+* update to latest pact-core 13.14.0 ([a3085d6](https://github.com/pact-foundation/pact-js/commit/a3085d6901a94ae4a9d9dab5451dab000b9b8456))
+* update to latest pact-core 14.3.3 ([34d8a4b](https://github.com/pact-foundation/pact-js/commit/34d8a4bc9fba6f98590509e1bb1c78b3377792e5))
+* update to latest pact-core 14.3.4 ([1b56a73](https://github.com/pact-foundation/pact-js/commit/1b56a7317c657ad2f89ed037532b84a58681e0e6))
+* updated deprecated `eachLike` V3 description. ([1e7b7ae](https://github.com/pact-foundation/pact-js/commit/1e7b7ae366e8e4dcccb2fcd048526021bba7a853))
+
 ## [13.2.0](https://github.com/pact-foundation/pact-js/compare/v13.1.5...v13.2.0) (2024-11-21)
 
 
