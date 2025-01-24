@@ -3,12 +3,7 @@ import * as chai from 'chai';
 import * as path from 'path';
 import chaiAsPromised from 'chai-as-promised';
 import { query } from './consumer';
-import {
-  Pact,
-  GraphQLInteraction,
-  Matchers,
-  LogLevel,
-} from '@you54f/pact';
+import { Pact, GraphQLInteraction, Matchers, LogLevel } from '@you54f/pact';
 const { like } = Matchers;
 const LOG_LEVEL = process.env.LOG_LEVEL || 'TRACE';
 
