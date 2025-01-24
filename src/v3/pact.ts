@@ -3,7 +3,7 @@ import {
   makeConsumerPact,
   ConsumerPact,
   ConsumerInteraction,
-} from '@pact-foundation/pact-core';
+} from '@you54f/pact-core';
 import fs = require('fs');
 import { version as pactPackageVersion } from '../../package.json';
 import { JsonMap } from '../common/jsonTypes';

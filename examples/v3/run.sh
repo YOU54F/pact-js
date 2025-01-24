@@ -9,9 +9,9 @@ for i in *; do
     echo -------------------------------------------------
     pushd "$i"
     npm i
-    rm -rf "node_modules/@pact-foundation/pact"
+    rm -rf "node_modules/@you54f/pact"
     echo "linking pact"
-    npm link @pact-foundation/pact
+    npm link @you54f/pact
     npm t
     popd
   fi  

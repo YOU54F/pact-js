@@ -2,7 +2,7 @@ import serviceFactory, {
   ConsumerPact,
   ConsumerInteraction,
   makeConsumerPact,
-} from '@pact-foundation/pact-core';
+} from '@you54f/pact-core';
 
 import chalk from 'chalk';
 import path from 'path';

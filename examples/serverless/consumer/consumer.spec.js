@@ -4,7 +4,7 @@ const {
   MessageConsumerPact,
   Matchers,
   synchronousBodyHandler,
-} = require('@pact-foundation/pact');
+} = require('@you54f/pact');
 const { like, term } = Matchers;
 const path = require('path');
 const LOG_LEVEL = process.env.LOG_LEVEL || 'TRACE';

@@ -6,7 +6,7 @@ import {
   PactV4,
   LogLevel,
   MatchersV3,
-} from '@pact-foundation/pact';
+} from '@you54f/pact';
 import axios from 'axios';
 
 chai.use(chaiAsPromised);

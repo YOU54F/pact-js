@@ -2,7 +2,7 @@
  * Pact Options module.
  * @module PactOptions
  */
-import { VerifierOptions as PactCoreVerifierOptions } from '@pact-foundation/pact-core';
+import { VerifierOptions as PactCoreVerifierOptions } from '@you54f/pact-core';
 import { PactfileWriteMode } from './mockService';
 import { MessageProviders, MessageStateHandlers } from './message';
 

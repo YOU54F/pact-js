@@ -3,7 +3,7 @@ import * as chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import path = require('path');
 import sinonChai from 'sinon-chai';
-import { Pact, Interaction, Matchers, LogLevel } from '@pact-foundation/pact';
+import { Pact, Interaction, Matchers, LogLevel } from '@you54f/pact';
 
 const expect = chai.expect;
 import { DogService } from '../src/index';

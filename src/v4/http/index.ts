@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { ConsumerInteraction, ConsumerPact } from '@pact-foundation/pact-core';
+import { ConsumerInteraction, ConsumerPact } from '@you54f/pact-core';
 import { JsonMap } from '../../common/jsonTypes';
 import { forEachObjIndexed } from 'ramda';
 import { Path, TemplateHeaders, TemplateQuery, V3MockServer } from '../../v3';

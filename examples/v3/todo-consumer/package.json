@@ -22,7 +22,7 @@
     "ramda": "^0.28.0"
   },
   "devDependencies": {
-    "@pact-foundation/pact": "file:../../../dist",
+    "@you54f/pact": "file:../../../dist",
     "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
     "mocha": "^10.0.0"

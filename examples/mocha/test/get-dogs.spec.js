@@ -2,7 +2,7 @@
 
 const expect = require('chai').expect;
 const path = require('path');
-const { Pact, Matchers } = require('@pact-foundation/pact');
+const { Pact, Matchers } = require('@you54f/pact');
 const { getMeDogs, getMeDog } = require('../index');
 const LOG_LEVEL = process.env.LOG_LEVEL || 'TRACE';
 

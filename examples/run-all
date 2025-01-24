@@ -35,7 +35,7 @@ run_example() {
   if [ -d "$example_dir/node_modules" ]; then
     echo "$(tput bold)$(tput setaf 7)Skipping installation of dependencies$(tput sgr0)"
   else
-    npm --prefix "$example_dir" ci
+    npm --prefix "$example_dir" ci || npm --prefix "$example_dir" i
   fi
 
   echo "$(tput bold)$(tput setaf 7)Running tests$(tput sgr0)"
@@ -87,9 +87,11 @@ main() {
       run_example "$example" || failed_examples+=("$example")
     done
 
-    for failed_example in "${failed_examples[@]}"; do
-      echo "$(tput bold)$(tput setaf 1)Failed to run example in $failed_example$(tput sgr0)"
-    done
+    if [ ${#failed_examples[@]} -ne 0 ]; then
+      for failed_example in "${failed_examples[@]}"; do
+        echo "$(tput bold)$(tput setaf 1)Failed to run example in $failed_example$(tput sgr0)"
+      done
+    fi
   fi
 }
 
