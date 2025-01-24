@@ -1,5 +1,5 @@
 /* tslint:disable:no-unused-expression no-empty */
-import { Verifier } from '@pact-foundation/pact';
+import { Verifier } from '@you54f/pact';
 import { AddressInfo } from 'net';
 import path = require('path');
 import { startHTTPServer, startTCPServer } from '../provider';

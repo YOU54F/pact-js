@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-expression no-empty */
 import * as chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import { SpecificationVersion, PactV4, LogLevel } from '@pact-foundation/pact';
+import { SpecificationVersion, PactV4, LogLevel } from '@you54f/pact';
 import net = require('net');
 import { generateMattMessage, parseMattMessage } from '../protocol';
 import axios from 'axios';

@@ -7,7 +7,7 @@ const {
   MatchersV3,
   XmlBuilder,
   SpecificationVersion,
-} = require('@pact-foundation/pact');
+} = require('@you54f/pact');
 const LOG_LEVEL = process.env.LOG_LEVEL || 'TRACE';
 
 chai.use(chaiAsPromised);

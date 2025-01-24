@@ -1,6 +1,6 @@
 const path = require('path');
 const transactionService = require('./transaction-service');
-const { PactV3, MatchersV3, XmlBuilder } = require('@pact-foundation/pact');
+const { PactV3, MatchersV3, XmlBuilder } = require('@you54f/pact');
 const { expect } = require('chai');
 const { string, integer, url2, regex, datetime, fromProviderState } =
   MatchersV3;

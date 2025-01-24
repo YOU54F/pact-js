@@ -1,4 +1,4 @@
-import { VerifierOptions as PactCoreVerifierOptions } from '@pact-foundation/pact-core';
+import { VerifierOptions as PactCoreVerifierOptions } from '@you54f/pact-core';
 import { MessageProviderOptions } from '../options';
 
 import { ProxyOptions } from './proxy/types';

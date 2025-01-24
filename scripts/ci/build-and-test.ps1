@@ -17,7 +17,7 @@ Get-ChildItem ".\examples" -Directory | ForEach-Object {
     Write-Output "Running examples in $($_.Name)"
     pushd $_.FullName
     npm i
-    npm link @pact-foundation/pact
+    npm link @you54f/pact
     npm t
     if ($LastExitCode -ne 0) {
       Write-Output "Non-zero exit code!"
@@ -35,7 +35,7 @@ Get-ChildItem ".\examples\v3" -Directory | ForEach-Object {
   npm i
   Remove-Item -LiteralPath "node_modules\@pact-foundation\pact" -Force -Recurse
 
-  npm link @pact-foundation/pact
+  npm link @you54f/pact
   npm t
   if ($LastExitCode -ne 0) {
     Write-Output "Non-zero exit code!"
@@ -52,7 +52,7 @@ Get-ChildItem ".\examples\v4" -Directory | ForEach-Object {
   npm i
   Remove-Item -LiteralPath "node_modules\@pact-foundation\pact" -Force -Recurse
 
-  npm link @pact-foundation/pact
+  npm link @you54f/pact
   npm t
   if ($LastExitCode -ne 0) {
     Write-Output "Non-zero exit code!"

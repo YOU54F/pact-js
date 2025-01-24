@@ -1,4 +1,4 @@
-import { LogLevel, Verifier } from '@pact-foundation/pact';
+import { LogLevel, Verifier } from '@you54f/pact';
 import { after } from 'mocha';
 
 const express = require('express');

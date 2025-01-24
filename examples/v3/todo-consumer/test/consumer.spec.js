@@ -1,7 +1,7 @@
 const path = require('path');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
-const { PactV3, MatchersV3, XmlBuilder } = require('@pact-foundation/pact');
+const { PactV3, MatchersV3, XmlBuilder } = require('@you54f/pact');
 const { string, eachLike, integer, boolean, atLeastOneLike, timestamp, regex } =
   MatchersV3;
 const LOG_LEVEL = process.env.LOG_LEVEL || 'TRACE';

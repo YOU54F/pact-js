@@ -17,7 +17,7 @@ for i in examples/*; do
   echo "--> running tests for: $i"
   pushd "$i"
   # replace pact dependency with locally build version
-  contents="$(jq '.devDependencies."@pact-foundation/pact" = "file:../../dist"' package.json)" && \
+  contents="$(jq '.devDependencies."@you54f/pact" = "file:../../dist"' package.json)" && \
         echo "${contents}" > package.json
 
     if [ x"${SETUP_DIST_ONLY:-}" == "x" ]; then 
@@ -53,7 +53,7 @@ for i in examples/v*/*; do
   node --version
   pushd "$i"
   # replace pact dependency with locally build version
-  contents="$(jq '.devDependencies."@pact-foundation/pact" = "file:../../../dist"' package.json)" && \
+  contents="$(jq '.devDependencies."@you54f/pact" = "file:../../../dist"' package.json)" && \
      echo "${contents}" > package.json
   # npm ci does not work because we have just changed the package.json file
   if [ x"${SETUP_DIST_ONLY:-}" == "x" ]; then 

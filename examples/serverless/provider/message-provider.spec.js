@@ -1,7 +1,7 @@
 const {
   MessageProviderPact,
   providerWithMetadata,
-} = require('@pact-foundation/pact');
+} = require('@you54f/pact');
 const { versionFromGitTag } = require('absolute-version');
 const path = require('path');
 const { createEvent } = require('./index');

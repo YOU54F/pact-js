@@ -8,7 +8,7 @@ import {
   GraphQLInteraction,
   Matchers,
   LogLevel,
-} from '@pact-foundation/pact';
+} from '@you54f/pact';
 const { like } = Matchers;
 const LOG_LEVEL = process.env.LOG_LEVEL || 'TRACE';
 

@@ -1,4 +1,4 @@
-const { Verifier } = require('@pact-foundation/pact');
+const { Verifier } = require('@you54f/pact');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
