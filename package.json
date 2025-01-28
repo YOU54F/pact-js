@@ -1,6 +1,6 @@
 {
   "name": "@you54f/pact",
-  "version": "14.0.0",
+  "version": "14.0.1",
   "description": "Pact for all things Javascript",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
