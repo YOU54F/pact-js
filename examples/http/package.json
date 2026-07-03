@@ -6,7 +6,10 @@
   "scripts": {
     "test": "npm run test:consumer && npm run test:provider",
     "test:consumer": "vitest run consumer.test.ts",
-    "test:provider": "vitest run provider.test.ts"
+    "test:provider": "vitest run provider.test.ts",
+    "test:repro": "vitest run repro",
+    "test:repro:serial": "vitest run repro --fileParallelism=false",
+    "test:repro:repeat": "node repro/run-repro.mjs"
   },
   "engines": {
     "node": ">=20"
