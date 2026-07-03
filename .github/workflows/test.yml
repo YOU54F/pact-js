@@ -240,7 +240,7 @@ jobs:
       - name: replace libffi with patched version
         run: |
           curl -LO https://github.com/YOU54F/test/releases/download/0.0.0/libpact_ffi.so
-          mv libpact_ffi.so node_modules/@pact-foundation/pact-core-linux-arm64-glibc/prebuilds/linux-arm64/libpact_ffi.so
+          mv libpact_ffi.so node_modules/@pact-foundation/pact-core-linux-x64-glibc/prebuilds/linux-x64/libpact_ffi.so
 
       - name: Install and test examples
         run: |
