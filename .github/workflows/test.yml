@@ -237,8 +237,13 @@ jobs:
       - name: Install root dependencies
         run: npm ci
 
+      - name: replace libffi with patched version
+        run: |
+          curl -LO https://github.com/YOU54F/test/releases/download/0.0.0/libpact_ffi.so
+
       - name: Install and test examples
         run: |
           cd examples/http
           npm i
+          mv ../../libpact_ffi.so node_modules/@pact-foundation/pact/node_modules/@pact-foundation/pact-core-linux-arm64-glibc/prebuilds/linux-arm64/libpact_ffi.so
           REPRO_RUNS=20 npm run test:repro:repeat
