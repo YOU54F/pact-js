@@ -52,3 +52,37 @@ replaced the older object-literal style.
 - [Pact provider verification](https://docs.pact.io/implementation_guides/javascript/docs/provider)
 - [Matchers](https://docs.pact.io/implementation_guides/javascript/docs/matching)
 - [Provider states](https://docs.pact.io/implementation_guides/javascript/docs/provider#provider-states)
+
+## Flaky V4 Parallel-Load Repro
+
+This example now includes a stress repro for an intermittent failure seen with
+V4 `addInteraction().executeTest()` under high parallel CPU load.
+
+Repro files live in `repro/`:
+
+- `v4-execute-test-race.test.ts`: runs many sequential V4 `executeTest()`
+  interactions in one file.
+- `cpu-pressure-*.test.ts`: many unrelated files that keep Vitest workers busy
+  and create parallel CPU pressure.
+- `run-repro.mjs`: repeats the parallel repro command and reports flaky runs.
+
+Run the repro in parallel mode (expected flaky mode when regression exists):
+
+```bash
+npm run test:repro
+```
+
+Run the same tests with file parallelism disabled (control mode):
+
+```bash
+npm run test:repro:serial
+```
+
+Repeat the parallel run many times to surface intermittent failures:
+
+```bash
+REPRO_RUNS=20 npm run test:repro:repeat
+```
+
+By default, `test:repro:repeat` treats this as flaky if at least one run fails
+with text matching `expected request not received`.
