@@ -1,10 +1,10 @@
 import type { ConsumerInteraction } from '@pact-foundation/pact-core';
 import { forEachObjIndexed } from 'ramda';
 import { convertRulesToFFI, validateRules } from '../../common/matchingRules';
-import type { Rules, TemplateHeaders } from '../../v3';
+import type { Matcher, Rules, TemplateHeaders } from '../../v3';
 import { matcherValueOrString } from '../../v3/matchers';
 import { readBinaryData } from '.';
-import type { V4ResponseBuilder } from './types';
+import type { TemplateHeaderArrayValue, V4ResponseBuilder } from './types';
 
 export class ResponseBuilder implements V4ResponseBuilder {
   protected interaction: ConsumerInteraction;
@@ -15,7 +15,19 @@ export class ResponseBuilder implements V4ResponseBuilder {
 
   headers(headers: TemplateHeaders): V4ResponseBuilder {
     forEachObjIndexed((v, k) => {
-      this.interaction.withResponseHeader(`${k}`, 0, matcherValueOrString(v));
+      if (Array.isArray(v)) {
+        (v as TemplateHeaderArrayValue).forEach(
+          (header: string | Matcher<string>, index: number) => {
+            this.interaction.withResponseHeader(
+              `${k}`,
+              index,
+              matcherValueOrString(header),
+            );
+          },
+        );
+      } else {
+        this.interaction.withResponseHeader(`${k}`, 0, matcherValueOrString(v));
+      }
     }, headers);
 
     return this;
