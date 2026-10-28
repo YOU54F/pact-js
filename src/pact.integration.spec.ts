@@ -234,6 +234,37 @@ describe('V4 Pact', () => {
             foo: 'bar',
           }),
         ));
+
+    it('records each value of a repeated response header', async () => {
+      const description = 'a response with a repeated header';
+
+      await pact
+        .addInteraction()
+        .uponReceiving(description)
+        .withRequest('GET', '/repeated-header')
+        .willRespondWith(200, (builder) => {
+          builder.headers({
+            'X-Repeated': ['first', MatchersV3.regex(/^second$/, 'second')],
+          });
+        })
+        .executeTest(async (server) => {
+          const response = await axios.get(`${server.url}/repeated-header`);
+          expect(response.headers['x-repeated']).toContain('first');
+          expect(response.headers['x-repeated']).toContain('second');
+        });
+
+      const interaction = interactionByDescription(description);
+      const response = interaction.response as {
+        headers: Record<string, string[]>;
+        matchingRules: Record<string, Record<string, unknown>>;
+      };
+
+      expect(response.headers['X-Repeated']).toEqual(['first', 'second']);
+      expect(response.matchingRules.header['X-Repeated']).toEqual({
+        combine: 'AND',
+        matchers: [{ match: 'regex', regex: '^second$' }],
+      });
+    });
   });
 
   describe('Asynchronous message contract', () => {
