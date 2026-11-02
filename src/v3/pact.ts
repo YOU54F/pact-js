@@ -13,11 +13,11 @@ import logger from '../common/logger';
 import { convertRulesToFFI, validateRules } from '../common/matchingRules';
 import { filterMissingFeatureFlag, generateMockServerError } from './display';
 import {
+  bodyAndMatchingRules,
   contentTypeFromHeaders,
   setRequestDetails,
   setResponseDetails,
 } from './ffi';
-import { matcherValueOrString } from './matchers';
 import {
   type PactV3Options,
   type Rules,
@@ -115,11 +115,14 @@ export class PactV3 {
 
   public withRequest(req: V3Request): PactV3 {
     if (req.body) {
-      this.interaction.withRequestBody(
-        matcherValueOrString(req.body),
+      const contentType =
         req.contentType ||
-          contentTypeFromHeaders(req.headers, 'application/json'),
-      );
+        contentTypeFromHeaders(req.headers, 'application/json');
+      const { body, rules } = bodyAndMatchingRules(req.body, contentType);
+      this.interaction.withRequestBody(body, contentType);
+      if (rules) {
+        this.interaction.withRequestMatchingRules(rules);
+      }
     }
 
     setRequestDetails(this.interaction, req);
@@ -203,11 +206,14 @@ export class PactV3 {
   public willRespondWith(res: V3Response): PactV3 {
     setResponseDetails(this.interaction, res);
     if (res.body) {
-      this.interaction.withResponseBody(
-        matcherValueOrString(res.body),
+      const contentType =
         res.contentType ||
-          contentTypeFromHeaders(res.headers, 'application/json'),
-      );
+        contentTypeFromHeaders(res.headers, 'application/json');
+      const { body, rules } = bodyAndMatchingRules(res.body, contentType);
+      this.interaction.withResponseBody(body, contentType);
+      if (rules) {
+        this.interaction.withResponseMatchingRules(rules);
+      }
     }
     this.states = [];
     return this;
