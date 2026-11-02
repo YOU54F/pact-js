@@ -8,7 +8,12 @@ import type {
   RequestOptions,
   ResponseOptions,
 } from '../dsl/interaction';
-import { type MatcherV2, matcherValueOrString } from '../dsl/matchers';
+import {
+  extractPayload,
+  isMatcher,
+  type MatcherV2,
+  matcherValueOrString,
+} from '../dsl/matchers';
 
 enum InteractionPart {
   REQUEST = 1,
@@ -22,10 +27,13 @@ export const contentTypeFromHeaders = (
   headers: Headers | undefined,
   defaultContentType: string,
 ): string => {
-  let contentType: string | MatcherV2<string> = defaultContentType;
+  let contentType = defaultContentType;
   forEachObjIndexed((v, k) => {
     if (`${k}`.toLowerCase() === CONTENT_TYPE_HEADER) {
-      contentType = matcherValueOrString(v);
+      const headerValue = Array.isArray(v) ? v[0] : v;
+      contentType = isMatcher(headerValue)
+        ? `${extractPayload(headerValue)}`
+        : headerValue;
     }
   }, headers || {});
 

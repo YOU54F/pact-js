@@ -1,5 +1,6 @@
 import type { ConsumerInteraction } from '@pact-foundation/pact-core';
 import { vi } from 'vitest';
+import { term } from '../dsl/matchers';
 import { contentTypeFromHeaders, setQuery } from './ffi';
 
 describe('Pact FFI', () => {
@@ -12,6 +13,34 @@ describe('Pact FFI', () => {
             'some-mime-type',
           );
         });
+      });
+    });
+
+    describe('when the header is a matcher', () => {
+      it('uses the example value', () => {
+        const headers = {
+          'Content-Type': term({
+            generate: 'application/json',
+            matcher: 'application/json.*',
+          }),
+        };
+        expect(contentTypeFromHeaders(headers, 'text/plain')).toBe(
+          'application/json',
+        );
+      });
+    });
+
+    describe('when the header has more than one value', () => {
+      it('uses the first value', () => {
+        const headers = {
+          'Content-Type': [
+            term({ generate: 'application/xml', matcher: 'application/.*xml' }),
+            'text/plain',
+          ],
+        };
+        expect(contentTypeFromHeaders(headers, 'application/json')).toBe(
+          'application/xml',
+        );
       });
     });
 
