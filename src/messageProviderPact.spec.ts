@@ -3,6 +3,7 @@ import express from 'express';
 import type { Message } from './dsl/message';
 import {
   MessageProviderPact,
+  providerWithMetadata,
   setupProxyServer,
   waitForServerReady,
 } from './messageProviderPact';
@@ -186,6 +187,54 @@ describe('MessageProvider', () => {
         // biome-ignore lint/suspicious/noExplicitAny: accessing private method for test coverage
         (provider as any).setupProxyApplication.bind(provider);
       expect(setupProxyApplication().listen).toBeTypeOf('function');
+    });
+
+    describe('when a message has a content type in its metadata', () => {
+      const messageFor = async (description: string) => {
+        const app = new MessageProviderPact({
+          logLevel: 'error',
+          messageProviders: {
+            text: providerWithMetadata(() => '07/14/2023', {
+              contentType: 'text/plain',
+            }),
+            json: providerWithMetadata(() => 'yay', {
+              'Content-Type': 'application/json',
+            }),
+          },
+          provider: 'myprovider',
+          // biome-ignore lint/suspicious/noExplicitAny: accessing private method for test coverage
+        }) as any;
+        const server = setupProxyServer(app.setupProxyApplication());
+        await waitForServerReady(server);
+        try {
+          const { port } = server.address() as { port: number };
+          const res = await fetch(`http://localhost:${port}/`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ description }),
+          });
+          return {
+            contentType: res.headers.get('content-type'),
+            body: await res.text(),
+          };
+        } finally {
+          server.close();
+        }
+      };
+
+      it('sends a text message as it is, with that content type', async () => {
+        expect(await messageFor('text')).toEqual({
+          contentType: 'text/plain; charset=utf-8',
+          body: '07/14/2023',
+        });
+      });
+
+      it('still sends a JSON message as JSON', async () => {
+        expect(await messageFor('json')).toEqual({
+          contentType: 'application/json; charset=utf-8',
+          body: '"yay"',
+        });
+      });
     });
   });
 });

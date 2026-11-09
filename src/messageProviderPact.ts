@@ -37,6 +37,32 @@ const hasMetadata = (
 ): o is MessageFromProviderWithMetadata =>
   Boolean((o as MessageFromProviderWithMetadata).__pactMessageMetadata);
 
+const metadataContentType = (
+  metadata: Record<string, unknown>,
+): string | undefined => {
+  const key = Object.keys(metadata).find((k) =>
+    ['contenttype', 'content-type'].includes(k.toLowerCase()),
+  );
+  return key ? `${metadata[key]}` : undefined;
+};
+
+// A text or binary message is sent as it is, with the content type from its
+// metadata, so the verifier doesn't compare it as a JSON string (pact-js#1112)
+const sendMessage = (
+  res: express.Response,
+  message: unknown,
+  contentType?: string,
+) => {
+  if (
+    contentType &&
+    !/json/i.test(contentType) &&
+    (typeof message === 'string' || Buffer.isBuffer(message))
+  ) {
+    return res.type(contentType).send(message);
+  }
+  return res.json(message);
+};
+
 export const providerWithMetadata =
   (
     provider: MessageProvider,
@@ -134,7 +160,11 @@ export class MessageProviderPact {
             res.header('Pact-Message-Metadata', metadata);
             res.header('PACT_MESSAGE_METADATA', metadata);
 
-            return res.json(messageFromHandler.message);
+            return sendMessage(
+              res,
+              messageFromHandler.message,
+              metadataContentType(messageFromHandler.__pactMessageMetadata),
+            );
           }
           return res.json(messageFromHandler);
         })
@@ -149,7 +179,6 @@ export class MessageProviderPact {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use((_req, res, next) => {
-      // TODO: this seems to override the metadata for content-type
       res.header('Content-Type', 'application/json; charset=utf-8');
       next();
     });
