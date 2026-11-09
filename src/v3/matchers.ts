@@ -15,9 +15,11 @@ import {
 } from '../common/matcherFormats';
 import type {
   ArrayContainsMatcher,
+  CombinedMatcher,
   DateTimeMatcher,
   HTTPResponseStatusClass,
   Matcher,
+  MatcherAlternative,
   MaxLikeMatcher,
   MinLikeMatcher,
   ProviderStateInjectedValue,
@@ -505,6 +507,164 @@ export function nullValue(): Matcher<null> {
     value: null,
   };
 }
+
+type AnyMatcher<T> = Matcher<T> | CombinedMatcher<T>;
+
+/** The example type of a matcher, e.g. `string` for `Matcher<string>` */
+type MatcherExample<M> =
+  M extends CombinedMatcher<infer T>
+    ? T
+    : M extends Matcher<infer T>
+      ? T
+      : never;
+
+const isCombinedMatcher = (x: unknown): x is CombinedMatcher<unknown> =>
+  x != null &&
+  Array.isArray((x as CombinedMatcher<unknown>)['pact:matcher:type']);
+
+/**
+ * Converts a matcher into the list of single matchers used in an OR group. The example
+ * (`value`) and any generator are dropped, as only the example of the first matcher is used.
+ */
+const toAlternatives = (
+  matcher: AnyMatcher<unknown>,
+  index: number,
+): MatcherAlternative[] => {
+  if (
+    matcher == null ||
+    typeof matcher !== 'object' ||
+    matcher['pact:matcher:type'] === undefined
+  ) {
+    throw new Error(
+      `anyOf: argument ${index + 1} is not a matcher. Wrap example values in a matcher, e.g. equal(value)`,
+    );
+  }
+  if (isCombinedMatcher(matcher)) {
+    if (matcher['pact:matcher:combine'].toUpperCase() !== 'OR') {
+      throw new Error(
+        `anyOf: argument ${index + 1} combines its matchers with ${matcher['pact:matcher:combine']}, which can not be nested in an OR`,
+      );
+    }
+    return matcher['pact:matcher:type'];
+  }
+  const {
+    value: _value,
+    'pact:generator:type': _generator,
+    ...alternative
+  } = matcher as Matcher<unknown> & Record<string, unknown>;
+  return [alternative];
+};
+
+/**
+ * Value must match at least one of the given matchers (the matchers are combined with OR).
+ *
+ * The example used in the consumer test is taken from the first matcher, so order the
+ * matchers so that the one with the example you want comes first. Only that example is
+ * exercised by the consumer test; the other alternatives are only checked when verifying
+ * the provider.
+ *
+ * Matchers nested inside the first matcher's example (e.g. `like({ id: integer(1) })`)
+ * still apply to the children of the value.
+ *
+ * Requires a version of the Pact FFI that supports `pact:matcher:combine`
+ * (pact-foundation/pact-reference#601).
+ *
+ * @example
+ * anyOf(string('Fred'), nullValue())
+ * anyOf(uuid(), regex(/^\d+$/, '42'))
+ *
+ * @param matchers The matchers to combine. At least one is required.
+ */
+export function anyOf<M extends AnyMatcher<unknown>[]>(
+  ...matchers: M
+): CombinedMatcher<MatcherExample<M[number]>> {
+  if (matchers.length === 0) {
+    throw new Error('anyOf: at least one matcher is required');
+  }
+  const alternatives = matchers.flatMap(toAlternatives);
+  const [first] = matchers;
+  if (first.value === undefined) {
+    throw new Error(
+      `anyOf: the first matcher ('${JSON.stringify(first['pact:matcher:type'])}') has no example value`,
+    );
+  }
+
+  // Keep the generator of the first matcher (and its attributes, e.g. the provider
+  // state expression), as the example comes from it
+  const generator =
+    first['pact:generator:type'] !== undefined
+      ? (({ 'pact:matcher:type': _type, value: _value, ...rest }) => rest)(
+          first as Matcher<unknown> & Record<string, unknown>,
+        )
+      : {};
+
+  return {
+    ...generator,
+    'pact:matcher:type': alternatives,
+    'pact:matcher:combine': 'OR',
+    value: first.value as MatcherExample<M[number]>,
+  };
+}
+
+/**
+ * Value must be either null, or match the given template by type. Use this for
+ * optional objects, e.g. `likeOrNull({ street: string('Main St'), number: integer(42) })`
+ * @param template Template to base the comparison on
+ */
+export const likeOrNull = <T>(template: T): CombinedMatcher<T | null> =>
+  anyOf(like(template), nullValue());
+
+/**
+ * Value must be either null, or a string
+ * @param str Example value
+ */
+export const stringOrNull = (str?: string): CombinedMatcher<string | null> =>
+  anyOf(string(str), nullValue());
+
+/**
+ * Value must be either null, or an integer
+ * @param int Example value. If omitted a random value will be generated.
+ */
+export const integerOrNull = (int?: number): CombinedMatcher<number | null> =>
+  anyOf(integer(int), nullValue());
+
+/**
+ * Value must be either null, or a decimal number
+ * @param num Example value. If omitted a random value will be generated.
+ */
+export const decimalOrNull = (num?: number): CombinedMatcher<number | null> =>
+  anyOf(decimal(num), nullValue());
+
+/**
+ * Value must be either null, or a number
+ * @param num Example value. If omitted a random integer value will be generated.
+ */
+export const numberOrNull = (num?: number): CombinedMatcher<number | null> =>
+  anyOf(number(num), nullValue());
+
+/**
+ * Value must be either null, or a boolean
+ * @param b Example value. Defaults to true if unsupplied
+ */
+export const booleanOrNull = (b?: boolean): CombinedMatcher<boolean | null> =>
+  anyOf(boolean(b), nullValue());
+
+/**
+ * Value must be either null, or match the given regular expression
+ * @param pattern Regular Expression to match
+ * @param str Example value
+ */
+export const regexOrNull = (
+  pattern: RegExp | string,
+  str: string,
+): CombinedMatcher<string | null> => anyOf(regex(pattern, str), nullValue());
+
+/**
+ * Value must be either null, or a UUID
+ * @param example Example value. If omitted a random value will be generated.
+ */
+export const uuidOrNull = (example?: string): CombinedMatcher<string | null> =>
+  anyOf(uuid(example), nullValue());
 
 function stringFromRegex(r: RegExp): string {
   return new RandExp(r).gen();

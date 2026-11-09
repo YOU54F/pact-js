@@ -234,6 +234,9 @@ const animalBodyExpectation = {
 | `eachKeyMatches`       | example: object, rules: Matcher[]                  | Object where the _keys_ must match the supplied matching rules and the values are ignored.                                                                                                                                                                                                                                              |
 | `eachValueMatches`     | example: object, rules: Matcher[]                  | Object where the _values_ must match the supplied matching rules and keys are ignored.                                                                                                                                                                                                                                                  |
 | `fromProviderState`    | expression: string, exampleValue: string           | Sets a type matcher and a provider state generator. See the section below.                                                                                                                                                                                                                                                              |
+| `anyOf`                | matchers...                                        | Value that must match at least one of the given matchers (the matchers are combined with OR). The example is taken from the first matcher. See the section below.                                                                                                                                                                       |
+| `likeOrNull`           | template                                           | Value that must be null, or match the template by type (e.g. an optional object). Shorthand for `anyOf(like(template), nullValue())`.                                                                                                                                                                                                   |
+| `stringOrNull`         | example?: string                                   | Value that must be null, or a string. The `integerOrNull`, `decimalOrNull`, `numberOrNull`, `booleanOrNull`, `regexOrNull` and `uuidOrNull` matchers work the same way, taking the same parameters as the matcher they combine with `nullValue`.                                                                                        |
 
 #### Array contains matcher
 
@@ -264,6 +267,69 @@ these can be used to match a hypermedia format like Siren, see [Example Pact + S
   ])
 }
 ```
+
+#### Combining matchers with OR
+
+> [!NOTE]
+> Requires a version of the Pact FFI that supports `pact:matcher:combine` ([pact-reference#601](https://github.com/pact-foundation/pact-reference/pull/601)), which is
+> included in `@pact-foundation/pact-core` TODO: version. With older versions the matchers are combined with AND, so the consumer test will fail.
+
+The `anyOf` matching function applies several matchers to the same value, and matching succeeds if at least one of
+them matches. This is written to the pact file as a list of matching rules combined with `OR`, which is supported by the
+V3 and V4 specifications. It can be used for bodies, headers and query parameters.
+
+The `*OrNull` functions (`likeOrNull`, `stringOrNull`, `integerOrNull`, `decimalOrNull`, `numberOrNull`, `booleanOrNull`,
+`regexOrNull` and `uuidOrNull`) are shorthand for the most common case, a value that can also be `null`.
+
+```js
+const { MatchersV3 } = require('@pact-foundation/pact');
+const { anyOf, integer, likeOrNull, nullValue, regex, string, stringOrNull, uuid } = MatchersV3;
+
+const body = {
+  // a string or null
+  name: anyOf(string('Fred'), nullValue()), // same as stringOrNull('Fred')
+  // an ID that is either a number or a UUID
+  id: anyOf(regex(/^\d+$/, '42'), uuid()),
+  // an optional object: either null, or an object whose `number` is an integer
+  address: likeOrNull({
+    street: string('Main St'),
+    number: integer(42),
+  }),
+};
+```
+
+The `name` attribute is sent to the Pact FFI as:
+
+```json
+{
+  "pact:matcher:type": [{ "pact:matcher:type": "type" }, { "pact:matcher:type": "null" }],
+  "pact:matcher:combine": "OR",
+  "value": "Fred"
+}
+```
+
+and written to the pact file as:
+
+```json
+"$.name": {
+  "combine": "OR",
+  "matchers": [{ "match": "type" }, { "match": "null" }]
+}
+```
+
+Things to be aware of:
+
+- **Only the example is exercised in the consumer test.** The example value is taken from the first matcher (e.g. `'Fred'`
+  above), so the consumer code is only tested against that value. The other alternatives (e.g. `null`) are only checked
+  when the provider is verified, so make sure your consumer code handles them, for example with separate interactions or
+  unit tests. Use OR with care.
+- Order the matchers so that the one with the example you want to use comes first.
+- Matchers nested in the example of the first matcher (like `integer(42)` in `address` above) still apply to the children
+  of the value when it is not null.
+- Matchers that compare against the example, like `like`, can only describe the shape of that example. For instance,
+  `likeOrNull({...})` accepts an object of the same shape or null, but not an array.
+- Each path can only have a single list of rules. Put all the alternatives in the one `anyOf` call, rather than wrapping
+  another matcher in the example. Nested `anyOf` calls are flattened into a single list.
 
 #### Provider State Injected Values
 

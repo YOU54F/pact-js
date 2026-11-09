@@ -55,6 +55,28 @@ export interface RulesMatcher<T> extends Matcher<T> {
 }
 
 /**
+ * Logic used to combine a list of matchers for the same path
+ */
+export type MatcherCombineLogic = 'AND' | 'OR';
+
+/**
+ * A single matcher used as one of the alternatives in a {@link CombinedMatcher}.
+ * It carries the matcher type and its attributes (e.g. `regex`), but no example value.
+ */
+export type MatcherAlternative = Omit<Matcher<unknown>, 'value'> &
+  Record<string, unknown>;
+
+/**
+ * Several matchers applied to the same path, combined with the given logic.
+ * Only the `value` is used as the example.
+ */
+export interface CombinedMatcher<T>
+  extends Omit<Matcher<T>, 'pact:matcher:type'> {
+  'pact:matcher:type': MatcherAlternative[];
+  'pact:matcher:combine': MatcherCombineLogic;
+}
+
+/**
  * Enum for HTTP response status classes used with the status code matcher.
  * These values correspond to the status code ranges defined in RFC 7231.
  */
@@ -146,14 +168,23 @@ export interface V3ProviderState {
 }
 
 export declare type TemplateHeaders = {
-  [header: string]: string | Matcher<string> | (Matcher<string> | string)[];
+  [header: string]:
+    | string
+    | Matcher<string>
+    | CombinedMatcher<string>
+    | (Matcher<string> | CombinedMatcher<string> | string)[];
 };
 
 export type TemplateQuery = Record<
   string,
   | string
   | Matcher<string | number | boolean>
-  | Array<string | Matcher<string | number | boolean>>
+  | CombinedMatcher<string | number | boolean>
+  | Array<
+      | string
+      | Matcher<string | number | boolean>
+      | CombinedMatcher<string | number | boolean>
+    >
 >;
 
 export interface V3Interaction {
