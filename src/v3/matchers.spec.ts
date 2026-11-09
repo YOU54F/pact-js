@@ -599,6 +599,221 @@ describe('V3 Matchers', () => {
     });
   });
 
+  describe('#anyOf', () => {
+    it('returns a JSON representation of matchers combined with OR', () => {
+      const result = MatchersV3.anyOf(
+        MatchersV3.string('Fred'),
+        MatchersV3.nullValue(),
+      );
+      expect(result).toEqual({
+        'pact:matcher:type': [
+          { 'pact:matcher:type': 'type' },
+          { 'pact:matcher:type': 'null' },
+        ],
+        'pact:matcher:combine': 'OR',
+        value: 'Fred',
+      });
+    });
+
+    it('keeps the attributes of each matcher, but not their examples', () => {
+      const result = MatchersV3.anyOf(
+        MatchersV3.regex(/^\d+$/, '42'),
+        MatchersV3.datetime("yyyy-MM-dd'T'HH:mm:ss", '2020-01-01T10:00:00'),
+      );
+      expect(result).toEqual({
+        'pact:matcher:type': [
+          { 'pact:matcher:type': 'regex', regex: '^\\d+$' },
+          {
+            'pact:matcher:type': 'timestamp',
+            format: "yyyy-MM-dd'T'HH:mm:ss",
+          },
+        ],
+        'pact:matcher:combine': 'OR',
+        value: '42',
+      });
+    });
+
+    it('uses the example from the first matcher', () => {
+      expect(
+        MatchersV3.anyOf(MatchersV3.nullValue(), MatchersV3.string('Fred'))
+          .value,
+      ).toBeNull();
+      expect(
+        MatchersV3.anyOf(MatchersV3.integer(1), MatchersV3.string('Fred'))
+          .value,
+      ).toEqual(1);
+    });
+
+    it('keeps matchers nested in the example of the first matcher', () => {
+      const result = MatchersV3.anyOf(
+        MatchersV3.like({ street: 'Main St', number: MatchersV3.integer(42) }),
+        MatchersV3.nullValue(),
+      );
+      expect(result).toEqual({
+        'pact:matcher:type': [
+          { 'pact:matcher:type': 'type' },
+          { 'pact:matcher:type': 'null' },
+        ],
+        'pact:matcher:combine': 'OR',
+        value: {
+          street: 'Main St',
+          number: { 'pact:matcher:type': 'integer', value: 42 },
+        },
+      });
+      expect(MatchersV3.reify(result)).toEqual({
+        street: 'Main St',
+        number: 42,
+      });
+    });
+
+    it('keeps the generator of the first matcher on the combined matcher', () => {
+      const result = MatchersV3.anyOf(
+        MatchersV3.fromProviderState('userId', 'abc'),
+        MatchersV3.nullValue(),
+      );
+      expect(result).toEqual({
+        'pact:generator:type': 'ProviderState',
+        expression: 'userId',
+        'pact:matcher:type': [
+          { 'pact:matcher:type': 'type', expression: 'userId' },
+          { 'pact:matcher:type': 'null' },
+        ],
+        'pact:matcher:combine': 'OR',
+        value: 'abc',
+      });
+    });
+
+    it('drops the generators of the alternatives', () => {
+      const result = MatchersV3.anyOf(
+        MatchersV3.string('Fred'),
+        MatchersV3.integer(),
+      );
+      expect(result).toEqual({
+        'pact:matcher:type': [
+          { 'pact:matcher:type': 'type' },
+          { 'pact:matcher:type': 'integer' },
+        ],
+        'pact:matcher:combine': 'OR',
+        value: 'Fred',
+      });
+    });
+
+    it('flattens nested OR matchers into a single list', () => {
+      const result = MatchersV3.anyOf(
+        MatchersV3.anyOf(MatchersV3.integer(1), MatchersV3.decimal(1.5)),
+        MatchersV3.nullValue(),
+      );
+      expect(result).toEqual({
+        'pact:matcher:type': [
+          { 'pact:matcher:type': 'integer' },
+          { 'pact:matcher:type': 'decimal' },
+          { 'pact:matcher:type': 'null' },
+        ],
+        'pact:matcher:combine': 'OR',
+        value: 1,
+      });
+    });
+
+    it('can be reified', () => {
+      expect(
+        MatchersV3.reify({
+          name: MatchersV3.anyOf(
+            MatchersV3.string('Fred'),
+            MatchersV3.nullValue(),
+          ),
+          age: MatchersV3.anyOf(MatchersV3.nullValue(), MatchersV3.integer(1)),
+        }),
+      ).toEqual({ name: 'Fred', age: null });
+    });
+
+    it('throws when no matchers are given', () => {
+      expect(() => MatchersV3.anyOf()).toThrow(/at least one matcher/);
+    });
+
+    it('throws when given a value that is not a matcher', () => {
+      expect(() =>
+        // @ts-expect-error raw values are not matchers
+        MatchersV3.anyOf(MatchersV3.string('Fred'), 'Bob'),
+      ).toThrow(/argument 2 is not a matcher/);
+    });
+  });
+
+  describe('*OrNull matchers', () => {
+    const nullAlternative = { 'pact:matcher:type': 'null' };
+
+    it.each([
+      [
+        'likeOrNull',
+        MatchersV3.likeOrNull({ a: 1 }),
+        { 'pact:matcher:type': 'type' },
+        { a: 1 },
+      ],
+      [
+        'stringOrNull',
+        MatchersV3.stringOrNull('Fred'),
+        { 'pact:matcher:type': 'type' },
+        'Fred',
+      ],
+      [
+        'integerOrNull',
+        MatchersV3.integerOrNull(42),
+        { 'pact:matcher:type': 'integer' },
+        42,
+      ],
+      [
+        'decimalOrNull',
+        MatchersV3.decimalOrNull(4.2),
+        { 'pact:matcher:type': 'decimal' },
+        4.2,
+      ],
+      [
+        'numberOrNull',
+        MatchersV3.numberOrNull(42),
+        { 'pact:matcher:type': 'number' },
+        42,
+      ],
+      [
+        'booleanOrNull',
+        MatchersV3.booleanOrNull(false),
+        { 'pact:matcher:type': 'type' },
+        false,
+      ],
+      [
+        'regexOrNull',
+        MatchersV3.regexOrNull('^\\d+$', '42'),
+        { 'pact:matcher:type': 'regex', regex: '^\\d+$' },
+        '42',
+      ],
+      [
+        'uuidOrNull',
+        MatchersV3.uuidOrNull('e2490de5-5bd3-43d5-b7c4-526e33f71304'),
+        {
+          'pact:matcher:type': 'regex',
+          regex: '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}',
+        },
+        'e2490de5-5bd3-43d5-b7c4-526e33f71304',
+      ],
+    ])('%s combines the matcher with null', (_, result, matcher, example) => {
+      expect(result).toEqual({
+        'pact:matcher:type': [matcher, nullAlternative],
+        'pact:matcher:combine': 'OR',
+        value: example,
+      });
+    });
+
+    it('keeps the generator when no example is given', () => {
+      expect(MatchersV3.integerOrNull()).toEqual({
+        'pact:generator:type': 'RandomInt',
+        'pact:matcher:type': [
+          { 'pact:matcher:type': 'integer' },
+          nullAlternative,
+        ],
+        'pact:matcher:combine': 'OR',
+        value: 101,
+      });
+    });
+  });
+
   describe('#url', () => {
     it('returns a JSON representation of a regex matcher for the URL', () => {
       const result = MatchersV3.url2('http://localhost:8080', [
